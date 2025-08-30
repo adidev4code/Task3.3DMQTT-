@@ -78,23 +78,6 @@ Before starting, ensure you have the following:
 
 ---
 
-## Folder & File Structure
-
-Organize your project like this:
-
-```
-SIT210_Task3_3D/
-│
-├── src/
-│   └── main.ino             # Your main Arduino code
-│
-├── README.md                # This file
-├── libraries/               # Optional: extra Arduino libraries
-└── docs/                    # Optional: images or flow diagrams
-```
-
----
-
 ## Configuration Steps
 
 1. Open your `main.ino` file.
