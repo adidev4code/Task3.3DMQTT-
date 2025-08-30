@@ -1,5 +1,6 @@
 Code:
 
+//  --- Required Libraries --- 
 #include <SPI.h>
 #include <WiFiNINA.h>
 #include <ArduinoMqttClient.h>
@@ -27,9 +28,8 @@ const int waveRange = 17; // cm
 WiFiClient wifiClient;
 MqttClient mqttClient(wifiClient);
 
-// -----------------------------------------------------
-// WiFi setup
-// -----------------------------------------------------
+
+// --- WiFi setup --- 
 void connectWiFi() {
   Serial.print("Connecting to WiFi ");
   Serial.println(wifiSSID);
@@ -41,9 +41,8 @@ void connectWiFi() {
   Serial.println("\nWiFi connected");
 }
 
-// -----------------------------------------------------
-// MQTT setup
-// -----------------------------------------------------
+
+//  --- MQTT setup --- 
 void connectMQTT() {
   Serial.print("Connecting to MQTT broker...");
   while (!mqttClient.connect(broker, port)) {
@@ -60,9 +59,8 @@ void connectMQTT() {
   mqttClient.subscribe(waveTopic);
 }
 
-// -----------------------------------------------------
-// Ultrasonic distance measurement
-// -----------------------------------------------------
+
+//  --- Ultrasonic distance measurement --- 
 int getDistance() {
   digitalWrite(trigPin, LOW); delayMicroseconds(2);
   digitalWrite(trigPin, HIGH); delayMicroseconds(10);
@@ -71,9 +69,8 @@ int getDistance() {
   return duration * 0.034 / 2;
 }
 
-// -----------------------------------------------------
-// Publish gesture to correct topic
-// -----------------------------------------------------
+
+//  --- Publish gesture to correct topic --- 
 void publishGesture(const char* gesture, const char* topicName) {
   String msg = String(userName) + ": " + gesture;
   Serial.print("Publishing to ");
@@ -86,9 +83,9 @@ void publishGesture(const char* gesture, const char* topicName) {
   mqttClient.endMessage();
 }
 
-// -----------------------------------------------------
-// Handle received MQTT messages
-// -----------------------------------------------------
+
+//  --- Handle received MQTT messages --- 
+
 void onMessage(int size) {
   String msg;
   while (mqttClient.available()) {
@@ -104,9 +101,8 @@ void onMessage(int size) {
   }
 }
 
-// -----------------------------------------------------
-// LED feedback patterns
-// -----------------------------------------------------
+
+//  --- LED feedback patterns --- 
 void flashWave() {
   for (int i = 0; i < 3; i++) {
     digitalWrite(ledPin, HIGH); delay(150);
@@ -119,9 +115,8 @@ void flashPat() {
   digitalWrite(ledPin, LOW);
 }
 
-// -----------------------------------------------------
-// Setup
-// -----------------------------------------------------
+
+//  --- Setup --- 
 void setup() {
   Serial.begin(9600);
   pinMode(trigPin, OUTPUT);
@@ -132,9 +127,8 @@ void setup() {
   connectMQTT();
 }
 
-// -----------------------------------------------------
-// Loop
-// -----------------------------------------------------
+
+//  --- Loop --- 
 void loop() {
   mqttClient.poll();
 
